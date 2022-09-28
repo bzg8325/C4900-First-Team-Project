@@ -28,7 +28,7 @@ def test_answer():
     y1 = 1
     y2 = -1
 
-    #create two new point ojects
+    #create two new point objects
     p1 = Point(x1, y1)
     p2 = Point(x2, y2)
 
@@ -40,7 +40,7 @@ def test_answer():
     y3 = -4
     y4 = 2
 
-    #create two new point ojects
+    #create two new point objects
     p3 = Point(x3, y3)
     p4 = Point(x4, y4)
 
