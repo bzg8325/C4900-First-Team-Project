@@ -57,7 +57,6 @@ def test_answer():
     #should make some seperate test creation method to make this simpler looking 
     #should make more test cases, and a method to generate test random test cases
     line1 = create_line(2, 1, -2, -1)
-
     line2 = create_line(0, -4, 0, 2)
 
     pf = Point(0, 0)
@@ -72,6 +71,14 @@ def create_line(x1, y1, x2, y2):
     p2 = Point(x2, y2)
 
     return Line(p1, p2)
+
+#method that creates a list of points from a list of ints
+def create_points(points):
+    p = []
+    for i in range(0, len(points), 2):
+        p.append(Point(points[i], points[i+1]))
+
+    return p
 
 #create a point class that has x and y coordinates
 class Point:
