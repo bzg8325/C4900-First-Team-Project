@@ -56,29 +56,9 @@ def closest_pair(points):
 def test_answer():
     #should make some seperate test creation method to make this simpler looking 
     #should make more test cases, and a method to generate test random test cases
-    x1 = 2
-    x2 = -2
-    y1 = 1
-    y2 = -1
+    line1 = create_line(2, 1, -2, -1)
 
-    #create two new point ojects
-    p1 = Point(x1, y1)
-    p2 = Point(x2, y2)
-
-    #create a line object
-    line1 = Line(p1, p2)
-
-    x3 = 0
-    x4 = 0
-    y3 = -4
-    y4 = 2
-
-    #create two new point ojects
-    p3 = Point(x3, y3)
-    p4 = Point(x4, y4)
-
-    #create a line object
-    line2 = Line(p3, p4)
+    line2 = create_line(0, -4, 0, 2)
 
     pf = Point(0, 0)
 
@@ -86,6 +66,12 @@ def test_answer():
     assert intersect(line1, line2).get_y() == pf.get_y()
     #should try if we can directly compare points rather than x and y
 
+#method that creates a line from 4 ints
+def create_line(x1, y1, x2, y2):
+    p1 = Point(x1, y1)
+    p2 = Point(x2, y2)
+
+    return Line(p1, p2)
 
 #create a point class that has x and y coordinates
 class Point:
