@@ -44,13 +44,28 @@ def closest_pair(points):
     return Line(p1, p2)
 
 #given a list of points find the convex hull
-#def convex_hull(points):
+def convex_hull(points):
+    return points
 
-#given a list of points find the largest circle within the points convex hull
-# def largest_circle(points):
-#     hull = convex_hull(points)
-
-#     return Circle(Point(x, y), radius)
+#given a list of points find the largest empty circle within a list of points 
+def largest_circle(points):
+    max_radius = 0
+    #loop through all possible combinations of 3 points and create a circle from them, then check if none of the other points are in the circle
+    for i in range(len(points)):
+        for j in range(i+1, len(points)):
+            for k in range(j+1, len(points)):
+                #create circle from 3 points
+                c = get_circle(points[i], points[j], points[k])
+                #check if all other points are outside of circle
+                for p in points:
+                    if c.contains(p) == True:
+                        return -1
+                if convex_hull(points).contains(c.p) == False:
+                    return -1
+                if c.r > max_radius:
+                    max_radius = c.r
+                    max_circle = c
+    return max_circle
 
 
 def test_answer():
@@ -79,6 +94,22 @@ def create_points(points):
         p.append(Point(points[i], points[i+1]))
 
     return p
+
+#get the radius and center of a circle from 3 points
+def get_circle(p1, p2, p3):
+    #get the slope of the line between p1 and p2
+    m1 = (p2.y - p1.y)/(p2.x - p1.x)
+    #get the slope of the line between p2 and p3
+    m2 = (p3.y - p2.y)/(p3.x - p2.x)
+
+    #get the center of the circle
+    x = (m1*m2*(p1.y - p3.y) + m2*(p1.x + p2.x) - m1*(p2.x + p3.x))/(2* (m2 - m1))
+    y = (-1*(x - (p1.x + p2.x)/2)/m1) + (p1.y + p2.y)/2
+
+    #get the radius of the circle
+    r = math.sqrt((x - p1.x)**2 + (y - p1.y)**2)
+
+    return Circle(Point(x, y), r)
 
 #create a point class that has x and y coordinates
 class Point:
@@ -126,7 +157,9 @@ class Circle:
     #get circle radius
     def get_radius(self):
         return self.r
-
+    #check if a point is within a circle
+    def contains(self, p):
+        return self.p.distance(p) <= self.r
 
 
     
