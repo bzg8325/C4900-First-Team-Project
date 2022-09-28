@@ -43,8 +43,10 @@ def closest_pair(points):
 
     return Line(p1, p2)
 
-#given a list of points find the convex hull
-#def convex_hull(points):
+#Given a list of points find the convex hull
+def convex_hull(points):
+
+    return
 
 #given a list of points find the largest circle within the points convex hull
 # def largest_circle(points):
@@ -54,15 +56,20 @@ def closest_pair(points):
 
 
 def test_answer():
-    #should make some seperate test creation method to make this simpler looking 
+    hull_points = [Point(0, 0), Point(1, 2), Point(-1, -2),
+                   Point(-1, 2), Point(1, -2)]
+    correct_hull = [Point(1, 2), Point(-1, -2), Point(-1, 2), Point(1, -2)]
+
+    assert convex_hull(hull_points) == correct_hull
+    #should make some seperate test creation method to make this simpler looking
     #should make more test cases, and a method to generate test random test cases
-    line1 = create_line(2, 1, -2, -1)
-    line2 = create_line(0, -4, 0, 2)
+    #line1 = create_line(2, 1, -2, -1)
+    #line2 = create_line(0, -4, 0, 2)
 
-    pf = Point(0, 0)
+    #pf = Point(0, 0)
 
-    assert intersect(line1, line2).get_x() == pf.get_x()
-    assert intersect(line1, line2).get_y() == pf.get_y()
+    #assert intersect(line1, line2).get_x() == pf.get_x()
+    #assert intersect(line1, line2).get_y() == pf.get_y()
     #should try if we can directly compare points rather than x and y
 
 #method that creates a line from 4 ints
