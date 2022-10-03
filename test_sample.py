@@ -43,6 +43,7 @@ def closest_pair(points):
 
     return Line(p1, p2)
 
+#General Algorithim from https://en.wikipedia.org/wiki/Gift_wrapping_algorithm
 #Given a list of points find the convex hull
 def convex_hull(points):
 
@@ -58,7 +59,10 @@ def convex_hull(points):
 def test_answer():
     hull_points = [Point(0, 0), Point(1, 2), Point(-1, -2),
                    Point(-1, 2), Point(1, -2)]
+    hull_points2 = [Point(0, 0), Point(2, 2), Point(2, 3), Point(3, 2),
+                    Point(-12, 10), Point(12, 13)]
     correct_hull = [Point(1, 2), Point(-1, -2), Point(-1, 2), Point(1, -2)]
+    correct_hull2 = [Point(-12, 10), Point(12, 13), ]
 
     assert convex_hull(hull_points) == correct_hull
     #should make some seperate test creation method to make this simpler looking
