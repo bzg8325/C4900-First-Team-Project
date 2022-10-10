@@ -52,12 +52,15 @@ class Circle:
     def contains(self, p):
         return self.p.distance(p) <= self.r
 
-#method that creates a line from 4 ints
-def create_line(x1, y1, x2, y2):
-    p1 = Point(x1, y1)
-    p2 = Point(x2, y2)
-
-    return Line(p1, p2)
+def closest_point(points, p):
+    min_distance = 999999
+    closest = Point(0, 0)
+    for i in range(len(points)):
+        distance = Point(points[i]).distance(Point(p))
+        if distance < min_distance:
+            min_distance = distance
+            closest = Point(points[i])
+    return closest
 
 #method that creates a list of points from a list of ints
 def create_points(points):
