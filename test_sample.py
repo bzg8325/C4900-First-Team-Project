@@ -25,7 +25,7 @@ def intersect(line1, line2):
     return p
 
 
-# method that given a list of points, finds the two points closest togeather
+# method that given a list of points, finds the two points closest together
 def closest_pair(points):
     # initialize variables
     min_distance = 999999
@@ -48,9 +48,10 @@ def closest_pair(points):
 
 # General Algorithim from https://en.wikipedia.org/wiki/Gift_wrapping_algorithm
 # Given a list of points find the convex hull, returns -1 if ther is no hull
+# TODO: NOTE TO SELF IMPORT NUMPY FOR FUNCTIONS
 def convex_hull(points):
     # Returns -1 if there are not enough points to make a hull
-    if points.count() < 3:
+    if len(points) < 3:
         return -1
 
     # Find the left-most point
@@ -60,26 +61,48 @@ def convex_hull(points):
             left_most_point = p
 
     # Create hull answer (p) and find each point on the hull
-    point_on_hull = left_most_point
-    counter = 0
-    condition = True
     p = []
-    # Angle of initial line is set to 0, we're working with respect to y-axis
-    line_angle = 0
-    while condition:
-        p[counter] = point_on_hull
-        endpoint = points[0] # endpoint is a candidate for a point on the hull
-        for i in range(0, points.count()):
+
+    # Find second point on hull by finding smallest angle between a point
+    # directly above p[0], p[0], and another point
+    p.append(left_most_point)
+    angle_p = 2*math.pi
+    endpoint = points[0]
+    const_line = create_line(p[0].get_x(), p[0].get_y(), p[0].get_x(), p[0].get_y()+1)
+    for i in range(0, len(points)):
+        if p[0].get_x() != points[i].get_x():
+            line_temp = create_line(p[0].get_x(), p[0].get_y(), points[i].get_x(), points[i].get_y())
+            dot_prod = points[i].get_x()*p[0].get_x() + points[i].get_y()*(p[0].get_y()+1)
+            angle_temp = math.acos(dot_prod / line_temp.get_length()*const_line.get_length())
+            if(angle_temp < angle_p):
+                angle_p = angle_temp
+                endpoint = points[i]
+    point_on_hull = endpoint
+
+    # Find the rest of the points on the convex hull
+    counter = 1
+    while endpoint != p[0]:
+        p.append(point_on_hull) # This = p[counter] for this loop
+        endpoint = points[0]
+        angle_greatest = 0
+        previous_line = create_line(p[counter].get_x(), p[counter].get_y(), p[counter-1].get_x(), p[counter-1].get_y())
+        for i in range(0, len(points)):
             # We need to find the leftmost point which will be on the hull
             # Find the point with the greatest angle between the points p[counter], p[counter - 1], and endpoint
             # Each loop we test the angle between p[counter], p[counter - 1], and points[i], if greater than above angle set endpoint to points[i]
+            # Make line between p[counter] and points[i]
+            temp_line = create_line(p[counter].get_x(), p[counter].get_y(), points[i].get_x(), points[i].get_y())
+            dot_prod = points[i].get_x()*p[counter-1].get_x() + points[i].get_y()*p[counter-1].get_y()
+            angle_temp = math.acos(dot_prod / temp_line.get_length()*previous_line.get_length())
 
-            # This handles the typical case
-            if thing
-
-            # This handles a rare weird case
-            if endpoint == point_on_hull:
+            # This handles the case where the new angle is greater than the old
+            if angle_temp > angle_greatest or endpoint == point_on_hull:
+                angle_greatest = angle_temp
                 endpoint = points[i]
+
+        # Set up for next loop
+        point_on_hull = endpoint
+        counter += 1
 
     return
 
@@ -128,7 +151,6 @@ def create_points(points):
         p.append(Point(points[i], points[i + 1]))
 
     return p
-
 
 # create a point class that has x and y coordinates
 class Point:
