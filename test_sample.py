@@ -57,11 +57,12 @@ def closest_pair(points):
 
 #Seems functional however needs convex hull method to be tested thoroughly
 def largest_circle(points):
-    #break the points list into a list of lists for each point
+    #break the points list into a list of lists for each point for voronoi
     newPoints = []
     for i in range(len(points)):
         newPoints.append([points[i].get_x(), points[i].get_y()])
     points = newPoints
+
     voronoi = Voronoi(points)
     max_radius = 0
     max_circle = shapes.Circle(shapes.Point(0, 0), 0)
@@ -177,3 +178,62 @@ def test_largestCircle():
     assert largest_circle(points).get_p().get_x() == points[0].get_x()
     assert largest_circle(points).get_p().get_y() == points[0].get_y()
     assert largest_circle(points).get_r() == radAnswer
+
+def test_pointClass():
+    p = shapes.Point(1,2)
+    p2 = shapes.Point(1,4)
+
+    assert p.get_x() == 1
+    assert p.get_y() == 2
+    assert p.distance(p2) == 2
+
+    assert p2.get_x() == 1
+    assert p2.get_y() == 4
+    assert p2.distance(p) == 2
+
+def test_lineClass():
+    l = shapes.Line(shapes.Point(1,2), shapes.Point(1,4))
+    l2 = shapes.Line(shapes.Point(2,2), shapes.Point(2,4))
+
+    assert l.get_p1().get_x() == 1
+    assert l.get_p1().get_y() == 2
+
+    assert l.get_p2().get_x() == 1
+    assert l.get_p2().get_y() == 4
+
+    assert l2.get_p1().get_x() == 2
+    assert l2.get_p1().get_y() == 2
+
+    assert l2.get_p2().get_x() == 2
+    assert l2.get_p2().get_y() == 4
+
+    assert l.get_length() == 2
+    assert l2.get_length() == 2
+
+def test_circleClass():
+    c = shapes.Circle(shapes.Point(1,2), 3)
+    c2 = shapes.Circle(shapes.Point(2,2), 4)
+
+    assert c.get_p().get_x() == 1
+    assert c.get_p().get_y() == 2
+    assert c.get_radius() == 3
+
+    assert c2.get_p().get_x() == 2
+    assert c2.get_p().get_y() == 2
+    assert c2.get_radius() == 4
+
+def test_closestPoint():
+    points = shapes.create_points([0, 0, 1, 10, -1, -8, -1, 2, 1, -2])
+    p = shapes.Point(0, 10)
+    p2 = shapes.Point(0, -10)
+
+    assert shapes.closest_point(points, p).get_x() == points[1].get_x()
+    assert shapes.closest_point(points, p).get_y() == points[1].get_y()
+
+    assert shapes.closest_point(points, p2).get_x() == points[2].get_x()
+    assert shapes.closest_point(points, p2).get_y() == points[2].get_y()
+
+
+
+
+

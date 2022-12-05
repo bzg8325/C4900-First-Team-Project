@@ -18,6 +18,9 @@ class Point:
             self.p = [args[0], args[1]]
         else:
             self.p = args[0]
+
+    def __getitem__(self,index):
+        return self.p[index]
     #get point x coordinate
     def get_x(self):
         return self.p[0]
