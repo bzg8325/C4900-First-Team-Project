@@ -1,5 +1,15 @@
 import math
 
+def closest_point(points, p):
+        min_distance = 999999
+        closest = Point(0, 0)
+        for i in range(len(points)):
+            distance = Point(points[i]).distance(Point(p))
+            if distance < min_distance:
+                min_distance = distance
+                closest = Point(points[i])
+        return closest
+
 #create a point class that has x and y coordinates
 class Point:
     #constructor
@@ -17,7 +27,6 @@ class Point:
     #calculate distance between two points
     def distance(self, p):
         return math.sqrt((self.p[0] - p.p[0])**2 + (self.p[1] - p.p[1])**2)
-    
     
 #create a line class that has a start and end point
 class Line:
@@ -43,7 +52,7 @@ class Circle:
         self.p = p
         self.r = r   
     #get circle center
-    def get_center(self):
+    def get_p(self):
         return self.p
     #get circle radius
     def get_radius(self):
@@ -52,21 +61,13 @@ class Circle:
     def contains(self, p):
         return self.p.distance(p) <= self.r
 
-def closest_point(points, p):
-    min_distance = 999999
-    closest = Point(0, 0)
-    for i in range(len(points)):
-        distance = Point(points[i]).distance(Point(p))
-        if distance < min_distance:
-            min_distance = distance
-            closest = Point(points[i])
-    return closest
+
 
 #method that creates a list of points from a list of ints
 def create_points(points):
     p = []
     for i in range(0, len(points)-1, 2):
-        p.append([points[i], points[i+1]])
+        p.append(Point([points[i], points[i+1]]))
     return p
 
 #get the radius and center of a circle from 3 points
