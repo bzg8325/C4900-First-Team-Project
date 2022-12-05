@@ -47,8 +47,7 @@ def closest_pair(points):
 
 
 # General Algorithim from https://en.wikipedia.org/wiki/Gift_wrapping_algorithm
-# Given a list of points find the convex hull, returns -1 if ther is no hull
-# TODO: NOTE TO SELF IMPORT NUMPY FOR FUNCTIONS
+# Given a list of points find the convex hull, returns -1 if there is no hull
 def convex_hull(points):
     # Returns -1 if there are not enough points to make a hull
     if len(points) < 3:
@@ -93,7 +92,12 @@ def convex_hull(points):
             # Make line between p[counter] and points[i]
             temp_line = create_line(p[counter].get_x(), p[counter].get_y(), points[i].get_x(), points[i].get_y())
             dot_prod = points[i].get_x()*p[counter-1].get_x() + points[i].get_y()*p[counter-1].get_y()
-            angle_temp = math.acos(dot_prod / temp_line.get_length()*previous_line.get_length())
+            acos_value = dot_prod / (temp_line.get_length()*previous_line.get_length())
+            # Check to make sure acos isn't given an invalid value
+            if acos_value < 1:
+                angle_temp = math.acos(acos_value)
+            else:
+                angle_temp = 0
 
             # This handles the case where the new angle is greater than the old
             if angle_temp > angle_greatest or endpoint == point_on_hull:
@@ -152,24 +156,26 @@ def create_points(points):
 
     return p
 
-# create a point class that has x and y coordinates
+#create a point class that has x and y coordinates
 class Point:
-    # constructor
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    #constructor
+    def __init__(self, *args):
+        if len(args) > 1:
+            self.p = [args[0], args[1]]
+        else:
+            self.p = args[0]
 
-    # get point x coordinate
+    def __getitem__(self,index):
+        return self.p[index]
+    #get point x coordinate
     def get_x(self):
-        return self.x
-
-    # get point y coordinate
+        return self.p[0]
+    #get point y coordinate
     def get_y(self):
-        return self.y
-
-    # calculate distance between two points
+        return self.p[1]
+    #calculate distance between two points
     def distance(self, p):
-        return math.sqrt((self.x - p.x) ** 2 + (self.y - p.y) ** 2)
+        return math.sqrt((self.p[0] - p.p[0])**2 + (self.p[1] - p.p[1])**2)
 
 
 # create a line class that has a start and end point
